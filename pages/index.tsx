@@ -90,7 +90,7 @@ const DesktopContainer: React.FunctionComponent = ({ children }) => {
 const MobileContainer: React.FunctionComponent = ({ children }) => {
   const [sidebarOpened, setSidebarOpened] = useState(false);
   return (
-    <Media as={Sidebar.Pushable} at="mobile">
+    <Media at="mobile">
       <Sidebar.Pushable>
         <Sidebar
           as={Menu}
@@ -125,10 +125,10 @@ const MobileContainer: React.FunctionComponent = ({ children }) => {
                 </Menu.Item>
                 <Menu.Item position="right">
                   <Button as="a" inverted>
-                    Log in
+                    Twitter
                   </Button>
                   <Button as="a" inverted style={{ marginLeft: "0.5em" }}>
-                    Sign Up
+                    Discord
                   </Button>
                 </Menu.Item>
               </Menu>
