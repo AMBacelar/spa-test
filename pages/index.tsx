@@ -1,5 +1,4 @@
 import { createMedia } from "@artsy/fresnel";
-import { type } from "os";
 import * as React from "react";
 import { useState } from "react";
 import RoadmapProgress from "react-roadmap-progress";
