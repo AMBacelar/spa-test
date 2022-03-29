@@ -18,7 +18,7 @@ import {
   Visibility,
 } from "semantic-ui-react";
 
-const HomepageHeading = ({ mobile }: { mobile: boolean }) => (
+const HomepageHeading = ({ mobile }: { mobile?: boolean }) => (
   <Container text>
     <Header
       as="h1"
