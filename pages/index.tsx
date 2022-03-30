@@ -57,13 +57,21 @@ const DesktopContainer: React.FunctionComponent = ({ children }) => {
             size="large"
           >
             <Container>
-              <Menu.Item as="a" active>
+              <Menu.Item href="#" as="a">
                 Home
               </Menu.Item>
-              <Menu.Item as="a">About</Menu.Item>
-              <Menu.Item as="a">Mission</Menu.Item>
-              <Menu.Item as="a">Roadmap</Menu.Item>
-              <Menu.Item as="a">Team</Menu.Item>
+              <Menu.Item href="#about" as="a">
+                About
+              </Menu.Item>
+              <Menu.Item href="#mission" as="a">
+                Mission
+              </Menu.Item>
+              <Menu.Item href="#roadmap" as="a">
+                Roadmap
+              </Menu.Item>
+              <Menu.Item href="#team" as="a">
+                Team
+              </Menu.Item>
               <Menu.Item position="right">
                 <Button as="a" inverted={!showFixedMenu}>
                   Twitter
@@ -100,13 +108,21 @@ const MobileContainer: React.FunctionComponent = ({ children }) => {
           vertical
           visible={sidebarOpened}
         >
-          <Menu.Item as="a" active>
+          <Menu.Item href="#" as="a">
             Home
           </Menu.Item>
-          <Menu.Item as="a">About</Menu.Item>
-          <Menu.Item as="a">Mission</Menu.Item>
-          <Menu.Item as="a">Roadmap</Menu.Item>
-          <Menu.Item as="a">Team</Menu.Item>
+          <Menu.Item href="#about" as="a">
+            About
+          </Menu.Item>
+          <Menu.Item href="#mission" as="a">
+            Mission
+          </Menu.Item>
+          <Menu.Item href="#roadmap" as="a">
+            Roadmap
+          </Menu.Item>
+          <Menu.Item href="#team" as="a">
+            Team
+          </Menu.Item>
           <Menu.Item as="a">Twitter</Menu.Item>
           <Menu.Item as="a">Discord</Menu.Item>
         </Sidebar>
