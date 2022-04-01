@@ -11,6 +11,7 @@ import {
   Container,
   Header,
   Icon,
+  Input,
   Menu,
   Segment,
   Sidebar,
@@ -21,9 +22,9 @@ const ContractInteractionComponent = () => {
   const [account, setAccount] = useState<string>("");
   const [myraGenesis, setMyraGenesis] = useState<Contract>();
   const [loading, setloading] = useState<boolean>(false);
-  const [tokenAmount, setTokenAmount] = useState<number>(1);
-  const [minted, setMinted] = useState(0);
-  const [totalSupply, setTotalSupply] = useState(0);
+  const [tokenAmount, setTokenAmount] = useState<string>("0");
+  const [minted, setMinted] = useState<number>(0);
+  const [totalSupply, setTotalSupply] = useState<number>(0);
 
   useEffect(() => {
     if ((window as any).ethereum) {
@@ -77,13 +78,20 @@ const ContractInteractionComponent = () => {
 
   const handleMintClick = async () => {
     setloading(true);
-    const web3 = new Web3((window as any).ethereum);
-    myraGenesis &&
-      (await myraGenesis.methods.mint(account, 1).send({
-        from: account,
-        value: parseInt(await myraGenesis.methods.cost().call()) * tokenAmount,
-      }));
-    setloading(false);
+    try {
+      const web3 = new Web3((window as any).ethereum);
+      myraGenesis &&
+        (await myraGenesis.methods.mint(account, 1).send({
+          from: account,
+          value:
+            parseInt(await myraGenesis.methods.cost().call()) *
+            parseInt(tokenAmount),
+        }));
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setloading(false);
+    }
   };
 
   const MintInteractionComponent = () => {
@@ -92,13 +100,19 @@ const ContractInteractionComponent = () => {
       return (
         <>
           <p>Your Account: {account} on the Rinkeby test network</p>
-          <Button
-            // disabled={loading}
-            loading={loading}
-            onClick={() => handleMintClick()}
-          >
-            Mint {tokenAmount} token(s)
-          </Button>
+          <Input
+            type="number"
+            min={1}
+            max={5}
+            defaultValue={tokenAmount}
+            onBlur={(e) => setTokenAmount(e.target.value)}
+            action={{
+              loading: loading,
+              disabled: !tokenAmount,
+              content: `Mint ${parseInt(tokenAmount)} token(s)`,
+              onClick: () => handleMintClick(),
+            }}
+          />
         </>
       );
     }
