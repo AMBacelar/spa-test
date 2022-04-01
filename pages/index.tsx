@@ -21,6 +21,7 @@ const ContractInteractionComponent = () => {
   const [account, setAccount] = useState<string>("");
   const [myraGenesis, setMyraGenesis] = useState<Contract>();
   const [loading, setloading] = useState<boolean>(false);
+  const [tokenAmount, setTokenAmount] = useState<number>(1);
 
   const handleConnectWalletClick = async () => {
     if ((window as any).ethereum) {
@@ -47,11 +48,13 @@ const ContractInteractionComponent = () => {
 
   const handleMintClick = async () => {
     setloading(true);
+    const web3 = new Web3((window as any).ethereum);
     console.log("clicked the mint button");
     myraGenesis &&
-      (await (myraGenesis as any).methods
-        .mint(account, 1)
-        .send({ from: account }));
+      (await myraGenesis.methods.mint(account, 1).send({
+        from: account,
+        value: parseInt(web3.utils.toWei("0.01", "ether")) * tokenAmount,
+      }));
     setloading(false);
   };
 
@@ -61,8 +64,12 @@ const ContractInteractionComponent = () => {
       return (
         <>
           <p>Your Account: {account} on the Rinkeby test network</p>
-          <Button disabled={loading} onClick={() => handleMintClick()}>
-            Mint 1 token
+          <Button
+            // disabled={loading}
+            loading={loading}
+            onClick={() => handleMintClick()}
+          >
+            Mint {tokenAmount} token(s)
           </Button>
         </>
       );
