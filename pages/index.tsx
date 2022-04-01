@@ -21,10 +21,10 @@ const ContractInteractionComponent = () => {
   const [loading, setloading] = useState(false);
 
   const handleConnectWalletClick = async () => {
-    if (window.ethereum) {
-      const web3 = new Web3(window.ethereum);
+    if ((window as any).ethereum) {
+      const web3 = new Web3((window as any).ethereum);
       try {
-        await window.ethereum.enable();
+        await (window as any).ethereum.enable();
         const isRinkeby = web3.eth.net.getId();
         if (isRinkeby) {
           const accounts = await web3.eth.getAccounts();
@@ -47,7 +47,9 @@ const ContractInteractionComponent = () => {
     setloading(true);
     console.log("clicked the mint button");
     myraGenesis &&
-      (await myraGenesis.methods.mint(account, 1).send({ from: account }));
+      (await (myraGenesis as any).methods
+        .mint(account, 1)
+        .send({ from: account }));
     setloading(false);
   };
 
