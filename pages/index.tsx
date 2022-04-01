@@ -1,7 +1,9 @@
 import { createMedia } from "@artsy/fresnel";
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Web3 from "web3";
+import { Contract } from "web3-eth-contract";
+import { AbiItem } from "web3-utils";
 import RoadmapProgress from "react-roadmap-progress";
 import { MYRA_GENESIS_ADDRESS, MYRA_GENESIS_ABI } from "../config";
 import {
@@ -16,9 +18,9 @@ import {
 } from "semantic-ui-react";
 
 const ContractInteractionComponent = () => {
-  const [account, setAccount] = useState("");
-  const [myraGenesis, setMyraGenesis] = useState();
-  const [loading, setloading] = useState(false);
+  const [account, setAccount] = useState<string>("");
+  const [myraGenesis, setMyraGenesis] = useState<Contract>();
+  const [loading, setloading] = useState<boolean>(false);
 
   const handleConnectWalletClick = async () => {
     if ((window as any).ethereum) {
@@ -30,7 +32,7 @@ const ContractInteractionComponent = () => {
           const accounts = await web3.eth.getAccounts();
           setAccount(accounts[0]);
           const mGenesisContractList = new web3.eth.Contract(
-            MYRA_GENESIS_ABI,
+            MYRA_GENESIS_ABI as AbiItem[],
             MYRA_GENESIS_ADDRESS
           );
           setMyraGenesis(mGenesisContractList);
