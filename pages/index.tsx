@@ -1,6 +1,6 @@
 import { createMedia } from "@artsy/fresnel";
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Web3 from "web3";
 import { Contract } from "web3-eth-contract";
 import { AbiItem } from "web3-utils";
@@ -22,6 +22,40 @@ const ContractInteractionComponent = () => {
   const [myraGenesis, setMyraGenesis] = useState<Contract>();
   const [loading, setloading] = useState<boolean>(false);
   const [tokenAmount, setTokenAmount] = useState<number>(1);
+  const [minted, setMinted] = useState(0);
+  const [totalSupply, setTotalSupply] = useState(0);
+
+  useEffect(() => {
+    if ((window as any).ethereum) {
+      const web3 = new Web3((window as any).ethereum);
+      try {
+        const isRinkeby = web3.eth.net.getId();
+        if (isRinkeby) {
+          const mGenesisContractList = new web3.eth.Contract(
+            MYRA_GENESIS_ABI as AbiItem[],
+            MYRA_GENESIS_ADDRESS
+          );
+          setMyraGenesis(mGenesisContractList);
+          const fetchContractConstants = async () => {
+            const totalSupply = await mGenesisContractList.methods
+              .maxSupply()
+              .call();
+            const minted = await mGenesisContractList.methods
+              .totalSupply()
+              .call();
+
+            setTotalSupply(totalSupply);
+            setMinted(minted);
+          };
+          fetchContractConstants();
+        } else {
+          console.error("Not on Rinkeby Test Network");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }, []);
 
   const handleConnectWalletClick = async () => {
     if ((window as any).ethereum) {
@@ -32,11 +66,6 @@ const ContractInteractionComponent = () => {
         if (isRinkeby) {
           const accounts = await web3.eth.getAccounts();
           setAccount(accounts[0]);
-          const mGenesisContractList = new web3.eth.Contract(
-            MYRA_GENESIS_ABI as AbiItem[],
-            MYRA_GENESIS_ADDRESS
-          );
-          setMyraGenesis(mGenesisContractList);
         } else {
           console.error("Not on Rinkeby Test Network");
         }
@@ -49,11 +78,10 @@ const ContractInteractionComponent = () => {
   const handleMintClick = async () => {
     setloading(true);
     const web3 = new Web3((window as any).ethereum);
-    console.log("clicked the mint button");
     myraGenesis &&
       (await myraGenesis.methods.mint(account, 1).send({
         from: account,
-        value: parseInt(web3.utils.toWei("0.01", "ether")) * tokenAmount,
+        value: parseInt(await myraGenesis.methods.cost().call()) * tokenAmount,
       }));
     setloading(false);
   };
@@ -78,10 +106,19 @@ const ContractInteractionComponent = () => {
     return <></>;
   };
 
-  return account ? (
-    <MintInteractionComponent />
-  ) : (
-    <Button onClick={() => handleConnectWalletClick()}>Connect Wallet</Button>
+  return (
+    <>
+      <p>
+        Currently at {minted} out of {totalSupply} minted
+      </p>
+      {account ? (
+        <MintInteractionComponent />
+      ) : (
+        <Button onClick={() => handleConnectWalletClick()}>
+          Connect Wallet
+        </Button>
+      )}
+    </>
   );
 };
 
