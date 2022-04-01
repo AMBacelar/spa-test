@@ -147,7 +147,7 @@ const HomepageHeading = ({ mobile }: { mobile?: boolean }) => (
           marginTop: mobile ? "1.5em" : "3em",
         }}
       >
-        Myra Learning
+        Myra Frens
       </h1>
       <ContractInteractionComponent />
     </Header>
