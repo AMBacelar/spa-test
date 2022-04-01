@@ -1,36 +1,94 @@
 import { createMedia } from "@artsy/fresnel";
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Web3 from "web3";
 import RoadmapProgress from "react-roadmap-progress";
-// import styles from "../styles/Home.module.css";
+import { MYRA_GENESIS_ADDRESS, MYRA_GENESIS_ABI } from "../config";
 import {
   Button,
   Container,
-  Divider,
-  Grid,
   Header,
   Icon,
-  Image,
-  List,
   Menu,
   Segment,
   Sidebar,
   Visibility,
 } from "semantic-ui-react";
 
+const ContractInteractionComponent = () => {
+  const [account, setAccount] = useState("");
+  const [myraGenesis, setMyraGenesis] = useState();
+  const [loading, setloading] = useState(false);
+
+  const handleConnectWalletClick = async () => {
+    if (window.ethereum) {
+      const web3 = new Web3(window.ethereum);
+      try {
+        await window.ethereum.enable();
+        const isRinkeby = web3.eth.net.getId();
+        if (isRinkeby) {
+          const accounts = await web3.eth.getAccounts();
+          setAccount(accounts[0]);
+          const mGenesisContractList = new web3.eth.Contract(
+            MYRA_GENESIS_ABI,
+            MYRA_GENESIS_ADDRESS
+          );
+          setMyraGenesis(mGenesisContractList);
+        } else {
+          console.error("Not on Rinkeby Test Network");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  const handleMintClick = async () => {
+    setloading(true);
+    console.log("clicked the mint button");
+    myraGenesis &&
+      (await myraGenesis.methods.mint(account, 1).send({ from: account }));
+    setloading(false);
+  };
+
+  const MintInteractionComponent = () => {
+    if (account && myraGenesis) {
+      console.log({ account, myraGenesis });
+      return (
+        <>
+          <p>Your Account: {account} on the Rinkeby test network</p>
+          <Button disabled={loading} onClick={() => handleMintClick()}>
+            Mint 1 token
+          </Button>
+        </>
+      );
+    }
+
+    return <></>;
+  };
+
+  return account ? (
+    <MintInteractionComponent />
+  ) : (
+    <Button onClick={() => handleConnectWalletClick()}>Connect Wallet</Button>
+  );
+};
+
 const HomepageHeading = ({ mobile }: { mobile?: boolean }) => (
   <Container text>
-    <Header
-      as="h1"
-      content="Myra Learning"
-      inverted
-      style={{
-        fontSize: mobile ? "2em" : "4em",
-        fontWeight: "normal",
-        marginBottom: 0,
-        marginTop: mobile ? "1.5em" : "3em",
-      }}
-    />
+    <Header inverted>
+      <h1
+        style={{
+          fontSize: mobile ? "2em" : "4em",
+          fontWeight: "normal",
+          marginBottom: 100,
+          marginTop: mobile ? "1.5em" : "3em",
+        }}
+      >
+        Myra Learning
+      </h1>
+      <ContractInteractionComponent />
+    </Header>
   </Container>
 );
 
@@ -214,119 +272,124 @@ const milestones = [
   },
 ];
 
-const HomepageLayout = () => (
-  <ResponsiveContainer>
-    <Segment style={{ padding: "8em 0em" }} vertical>
-      <Container text>
-        <Header as="h3" id="about" style={{ fontSize: "2em" }}>
-          About
-        </Header>
-        <p style={{ fontSize: "1.33em" }}>
-          Myra Frens are a collection of 10,000 randomly generated and
-          culturally curated NFTs living on the Ethereum Blockchain. Each Fren
-          is on a mission to tell a story of our enriched culture, arts and
-          enterprise with a focus on community and social equity.
-        </p>
-      </Container>
-    </Segment>
+const HomepageLayout = () => {
+  return (
+    <ResponsiveContainer>
+      <Segment style={{ padding: "8em 0em" }} vertical>
+        <Container text>
+          <Header as="h3" id="about" style={{ fontSize: "2em" }}>
+            About
+          </Header>
+          <p style={{ fontSize: "1.33em" }}>
+            Myra Frens are a collection of 10,000 randomly generated and
+            culturally curated NFTs living on the Ethereum Blockchain. Each Fren
+            is on a mission to tell a story of our enriched culture, arts and
+            enterprise with a focus on community and social equity.
+          </p>
+        </Container>
+      </Segment>
 
-    <Segment style={{ padding: "8em 0em" }} vertical>
-      <Container text>
-        <Header as="h3" id="mission" style={{ fontSize: "2em" }}>
-          Our foundation and mission
-        </Header>
-        <p style={{ fontSize: "1.33em" }}>
-          When my son was 11 months old, his mother and my long term partner
-          passed away. After his safety and health; education, culture and
-          identity became a main focal point for me.
-        </p>
-        <p style={{ fontSize: "1.33em" }}>
-          “Who am I?”
-          <br />
-          “Who is he?”
-          <br />
-          “Who are we?”…
-        </p>
+      <Segment style={{ padding: "8em 0em" }} vertical>
+        <Container text>
+          <Header as="h3" id="mission" style={{ fontSize: "2em" }}>
+            Our foundation and mission
+          </Header>
+          <p style={{ fontSize: "1.33em" }}>
+            When my son was 11 months old, his mother and my long term partner
+            passed away. After his safety and health; education, culture and
+            identity became a main focal point for me.
+          </p>
+          <p style={{ fontSize: "1.33em" }}>
+            “Who am I?”
+            <br />
+            “Who is he?”
+            <br />
+            “Who are we?”…
+          </p>
 
-        <p style={{ fontSize: "1.33em" }}>
-          These questions got me thinking about how to find ways to communicate,
-          educate and capture the essence of all our cultures, in meaningful
-          ways, keeping our identities alive.
-        </p>
+          <p style={{ fontSize: "1.33em" }}>
+            These questions got me thinking about how to find ways to
+            communicate, educate and capture the essence of all our cultures, in
+            meaningful ways, keeping our identities alive.
+          </p>
 
-        <hr />
+          <hr />
 
-        <p style={{ fontSize: "1.33em" }}>
-          Whilst exploring this thought process, I learned a few things along
-          the way:
-        </p>
+          <p style={{ fontSize: "1.33em" }}>
+            Whilst exploring this thought process, I learned a few things along
+            the way:
+          </p>
 
-        <ul style={{ fontSize: "1.33em" }}>
-          <li>
-            In the UK alone, almost 1 in 3 children are born to at least 1
-            foreign born parent
-          </li>
-          <li>
-            14.9% of our population will come from a single parent household.
-          </li>
-          <li>
-            Learning about culture and history is mostly academic and expensive.
-          </li>
-          <li>
-            Underserved communities are 80x less likely to have access to
-            cultural arts organisations and academic institutions -
-            post-compulsory schooling.
-          </li>
-          <li>
-            Parents from lower socioeconomic backgrounds are significantly less
-            likely to teach and/or take their children to arts or cultural and
-            historical events, creating an isolated ‘cycle of culture’.
-          </li>
-        </ul>
+          <ul style={{ fontSize: "1.33em" }}>
+            <li>
+              In the UK alone, almost 1 in 3 children are born to at least 1
+              foreign born parent
+            </li>
+            <li>
+              14.9% of our population will come from a single parent household.
+            </li>
+            <li>
+              Learning about culture and history is mostly academic and
+              expensive.
+            </li>
+            <li>
+              Underserved communities are 80x less likely to have access to
+              cultural arts organisations and academic institutions -
+              post-compulsory schooling.
+            </li>
+            <li>
+              Parents from lower socioeconomic backgrounds are significantly
+              less likely to teach and/or take their children to arts or
+              cultural and historical events, creating an isolated ‘cycle of
+              culture’.
+            </li>
+          </ul>
 
-        <p style={{ fontSize: "1.33em" }}>
-          If this is happening within the multicultural melting pot of what that
-          is the U.K. Imagine scaling this problem across the rest of the world…{" "}
-        </p>
+          <p style={{ fontSize: "1.33em" }}>
+            If this is happening within the multicultural melting pot of what
+            that is the U.K. Imagine scaling this problem across the rest of the
+            world…{" "}
+          </p>
 
-        <p style={{ fontSize: "1.33em" }}>
-          We are on the mission to bridge the gap of culture, social equity and
-          web 3 technology for all. Giving back to those who add value to the
-          world but not recognised in the midst of all the noise.
-        </p>
-      </Container>
-    </Segment>
+          <p style={{ fontSize: "1.33em" }}>
+            We are on the mission to bridge the gap of culture, social equity
+            and web 3 technology for all. Giving back to those who add value to
+            the world but not recognised in the midst of all the noise.
+          </p>
+        </Container>
+      </Segment>
 
-    <Segment style={{ padding: "8em 0em" }} vertical>
-      <Container text>
-        <Header as="h3" id="roadmap" style={{ fontSize: "2em" }}>
-          Roadmap
-        </Header>
-        <RoadmapProgress milestones={milestones} />
-      </Container>
-    </Segment>
+      <Segment style={{ padding: "8em 0em" }} vertical>
+        <Container text>
+          <Header as="h3" id="roadmap" style={{ fontSize: "2em" }}>
+            Roadmap
+          </Header>
+          <RoadmapProgress milestones={milestones} />
+        </Container>
+      </Segment>
 
-    <Segment style={{ padding: "8em 0em" }} vertical>
-      <Container text>
-        <Header as="h3" id="team" style={{ fontSize: "2em" }}>
-          Founding team
-        </Header>
-        <p style={{ fontSize: "1.33em" }}>
-          this is where our own custom Myra Frens avatars will sit
-        </p>
-      </Container>
-    </Segment>
+      <Segment style={{ padding: "8em 0em" }} vertical>
+        <Container text>
+          <Header as="h3" id="team" style={{ fontSize: "2em" }}>
+            Founding team
+          </Header>
+          <p style={{ fontSize: "1.33em" }}>
+            this is where our own custom Myra Frens avatars will sit
+          </p>
+        </Container>
+      </Segment>
 
-    <Segment inverted vertical style={{ padding: "5em 0em" }}>
-      <Container text>
-        <p style={{ fontSize: "1.33em" }}>
-          this is where all our social links will sit
-        </p>
-        <p style={{ fontSize: "1.33em" }}>© 2022 Myra Frens</p>
-        <p style={{ fontSize: "1.33em" }}>Logo again?</p>
-      </Container>
-    </Segment>
-  </ResponsiveContainer>
-);
+      <Segment inverted vertical style={{ padding: "5em 0em" }}>
+        <Container text>
+          <p style={{ fontSize: "1.33em" }}>
+            this is where all our social links will sit
+          </p>
+          <p style={{ fontSize: "1.33em" }}>© 2022 Myra Frens</p>
+          <p style={{ fontSize: "1.33em" }}>Logo again?</p>
+        </Container>
+      </Segment>
+    </ResponsiveContainer>
+  );
+};
 
 export default HomepageLayout;
