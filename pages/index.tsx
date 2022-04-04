@@ -8,6 +8,7 @@ import RoadmapProgress from "react-roadmap-progress";
 import { MYRA_GENESIS_ADDRESS, MYRA_GENESIS_ABI } from "../config";
 import {
   Button,
+  Accordion,
   Container,
   Header,
   Icon,
@@ -17,6 +18,9 @@ import {
   Sidebar,
   Visibility,
 } from "semantic-ui-react";
+import { Colours } from "../styles/colours";
+import Image from "next/image";
+import mcLogo from "../public/images/mclogo.png";
 
 const ContractInteractionComponent = () => {
   const [account, setAccount] = useState<string>("");
@@ -122,9 +126,9 @@ const ContractInteractionComponent = () => {
 
   return (
     <>
-      <p>
+      {/* <p>
         Currently at {minted} out of {totalSupply} minted
-      </p>
+      </p> */}
       {account ? (
         <MintInteractionComponent />
       ) : (
@@ -138,13 +142,16 @@ const ContractInteractionComponent = () => {
 
 const HomepageHeading = ({ mobile }: { mobile?: boolean }) => (
   <Container text>
-    <Header inverted>
+    <Header>
+      <div style={{ marginTop: mobile ? "1.5em" : "3em" }}>
+        <Image src={mcLogo} width={200} height={200} />
+      </div>
       <h1
         style={{
           fontSize: mobile ? "2em" : "4em",
           fontWeight: "normal",
           marginBottom: 100,
-          marginTop: mobile ? "1.5em" : "3em",
+          color: Colours.primaryText,
         }}
       >
         Myra Frens
@@ -164,17 +171,24 @@ const DesktopContainer: React.FunctionComponent = ({ children }) => {
         onBottomPassedReverse={() => setShowFixedMenu(false)}
       >
         <Segment
-          inverted
           textAlign="center"
-          style={{ minHeight: 700, padding: "1em 0em" }}
+          style={{
+            minHeight: 700,
+            padding: "1em 0em",
+            background: Colours.bgMain,
+            border: "none",
+            color: Colours.primaryText,
+          }}
           vertical
         >
           <Menu
             fixed={showFixedMenu ? "top" : undefined}
-            inverted={!showFixedMenu}
             pointing={!showFixedMenu}
             secondary={!showFixedMenu}
             size="large"
+            style={{
+              border: "none",
+            }}
           >
             <Container>
               <Menu.Item href="#" as="a">
@@ -183,25 +197,24 @@ const DesktopContainer: React.FunctionComponent = ({ children }) => {
               <Menu.Item href="#about" as="a">
                 About
               </Menu.Item>
-              <Menu.Item href="#mission" as="a">
-                Mission
-              </Menu.Item>
               <Menu.Item href="#roadmap" as="a">
                 Roadmap
+              </Menu.Item>
+              <Menu.Item href="#faq" as="a">
+                FAQ
               </Menu.Item>
               <Menu.Item href="#team" as="a">
                 Team
               </Menu.Item>
               <Menu.Item position="right">
-                <Button as="a" inverted={!showFixedMenu}>
+                <Button as="a" style={{ marginLeft: "0.5em" }}>
+                  Discord
+                </Button>
+                <Button as="a" style={{ marginLeft: "0.5em" }}>
                   Twitter
                 </Button>
-                <Button
-                  as="a"
-                  inverted={!showFixedMenu}
-                  style={{ marginLeft: "0.5em" }}
-                >
-                  Discord
+                <Button as="a" style={{ marginLeft: "0.5em" }}>
+                  OpenSea
                 </Button>
               </Menu.Item>
             </Container>
@@ -223,7 +236,6 @@ const MobileContainer: React.FunctionComponent = ({ children }) => {
         <Sidebar
           as={Menu}
           animation="overlay"
-          inverted
           onHide={() => setSidebarOpened(false)}
           vertical
           visible={sidebarOpened}
@@ -234,36 +246,39 @@ const MobileContainer: React.FunctionComponent = ({ children }) => {
           <Menu.Item href="#about" as="a">
             About
           </Menu.Item>
-          <Menu.Item href="#mission" as="a">
-            Mission
-          </Menu.Item>
           <Menu.Item href="#roadmap" as="a">
             Roadmap
+          </Menu.Item>
+          <Menu.Item href="#faq" as="a">
+            FAQ
           </Menu.Item>
           <Menu.Item href="#team" as="a">
             Team
           </Menu.Item>
-          <Menu.Item as="a">Twitter</Menu.Item>
           <Menu.Item as="a">Discord</Menu.Item>
+          <Menu.Item as="a">Twitter</Menu.Item>
+          <Menu.Item as="a">OpenSea</Menu.Item>
         </Sidebar>
 
         <Sidebar.Pusher dimmed={sidebarOpened}>
           <Segment
-            inverted
             textAlign="center"
-            style={{ minHeight: 350, padding: "1em 0em" }}
+            style={{
+              minHeight: 350,
+              padding: "1em 0em",
+              background: Colours.bgMain,
+              border: "none",
+            }}
             vertical
           >
             <Container>
-              <Menu inverted pointing secondary size="large">
+              <Menu pointing secondary size="large">
                 <Menu.Item onClick={() => setSidebarOpened(!sidebarOpened)}>
                   <Icon name="sidebar" />
                 </Menu.Item>
                 <Menu.Item position="right">
-                  <Button as="a" inverted>
-                    Twitter
-                  </Button>
-                  <Button as="a" inverted style={{ marginLeft: "0.5em" }}>
+                  <Button as="a">Twitter</Button>
+                  <Button as="a" style={{ marginLeft: "0.5em" }}>
                     Discord
                   </Button>
                 </Menu.Item>
@@ -334,106 +349,161 @@ const milestones = [
   },
 ];
 
+const FaqAccordion = () => {
+  const [activeIndex, setActiveIndex] = useState<number>(-1);
+
+  const handleClick = (e, titleProps) => {
+    const { index } = titleProps;
+    const newIndex = activeIndex === index ? -1 : index;
+    setActiveIndex(newIndex);
+  };
+
+  return (
+    <Accordion>
+      <Accordion.Title
+        active={activeIndex === 0}
+        index={0}
+        onClick={handleClick}
+        style={{ fontSize: "1.33em" }}
+      >
+        <Icon name="dropdown" />
+        How many Myra Frens are there?
+      </Accordion.Title>
+      <Accordion.Content active={activeIndex === 0}>
+        <p style={{ fontSize: "1.33em" }}>
+          There will be a collection of 10,000 generative NFTS.
+        </p>
+      </Accordion.Content>
+
+      <Accordion.Title
+        active={activeIndex === 1}
+        index={1}
+        onClick={handleClick}
+        style={{ fontSize: "1.33em" }}
+      >
+        <Icon name="dropdown" />
+        How much will Myra Frens cost to mint?
+      </Accordion.Title>
+      <Accordion.Content active={activeIndex === 1}>
+        <p style={{ fontSize: "1.33em" }}>0.05 ETH</p>
+      </Accordion.Content>
+
+      <Accordion.Title
+        active={activeIndex === 2}
+        index={2}
+        onClick={handleClick}
+        style={{ fontSize: "1.33em" }}
+      >
+        <Icon name="dropdown" />
+        When is the Mint?
+      </Accordion.Title>
+      <Accordion.Content active={activeIndex === 2}>
+        <p style={{ fontSize: "1.33em" }}>
+          Our mint date will be announced closer to the mint time, follow our
+          Twitter account for further information.
+        </p>
+      </Accordion.Content>
+
+      <Accordion.Title
+        active={activeIndex === 3}
+        index={3}
+        onClick={handleClick}
+        style={{ fontSize: "1.33em" }}
+      >
+        <Icon name="dropdown" />
+        Will there be utility?
+      </Accordion.Title>
+      <Accordion.Content active={activeIndex === 3}>
+        <p style={{ fontSize: "1.33em" }}>
+          Owners of Myra Frens will be able to access a cultural platform in
+          order to explore, learn and build within the Myra ecosystem.
+        </p>
+      </Accordion.Content>
+
+      <Accordion.Title
+        active={activeIndex === 4}
+        index={4}
+        onClick={handleClick}
+        style={{ fontSize: "1.33em" }}
+      >
+        <Icon name="dropdown" />
+        Where does my NFT go after I purchase a Myra Fren?
+      </Accordion.Title>
+      <Accordion.Content active={activeIndex === 4}>
+        <p style={{ fontSize: "1.33em" }}>
+          Your Myra Frens NFT will appear in the connected wallet you used to
+          purchase your fren.
+        </p>
+      </Accordion.Content>
+    </Accordion>
+  );
+};
+
 const HomepageLayout = () => {
   return (
     <ResponsiveContainer>
-      <Segment style={{ padding: "8em 0em" }} vertical>
+      <Segment style={{ padding: "8em 0em", border: "none" }} vertical>
         <Container text>
-          <Header as="h3" id="about" style={{ fontSize: "2em" }}>
-            About
+          <Header
+            as="h3"
+            id="about"
+            style={{ fontSize: "2.5em", textAlign: "center", marginBottom: 40 }}
+          >
+            ABOUT
           </Header>
-          <p style={{ fontSize: "1.33em" }}>
+          <p style={{ fontSize: "1.33em", textAlign: "center" }}>
             Myra Frens are a collection of 10,000 randomly generated and
-            culturally curated NFTs living on the Ethereum Blockchain. Each Fren
-            is on a mission to tell a story of our enriched culture, arts and
-            enterprise with a focus on community and social equity.
+            culturally curated NFTs living on the Ethereum Blockchain.
+          </p>
+          <p style={{ fontSize: "1.33em", textAlign: "center", color: "red" }}>
+            a row of images (emaple NFTs)
+          </p>
+          <p style={{ fontSize: "1.33em", textAlign: "center" }}>
+            Each Fren provides a key to a cultual platform that rewards users
+            for exploring, learning and building. Our mission is to bridge the
+            gap of culture, social equity and web3 technology for all. Giving
+            back to those who add value to the world.
+          </p>
+          <p style={{ fontSize: "1.33em", textAlign: "center", color: "red" }}>
+            a single image (emaple NFT)
           </p>
         </Container>
       </Segment>
 
-      <Segment style={{ padding: "8em 0em" }} vertical>
+      <Segment style={{ padding: "8em 0em", border: "none" }} vertical>
         <Container text>
-          <Header as="h3" id="mission" style={{ fontSize: "2em" }}>
-            Our foundation and mission
-          </Header>
-          <p style={{ fontSize: "1.33em" }}>
-            When my son was 11 months old, his mother and my long term partner
-            passed away. After his safety and health; education, culture and
-            identity became a main focal point for me.
-          </p>
-          <p style={{ fontSize: "1.33em" }}>
-            “Who am I?”
-            <br />
-            “Who is he?”
-            <br />
-            “Who are we?”…
-          </p>
-
-          <p style={{ fontSize: "1.33em" }}>
-            These questions got me thinking about how to find ways to
-            communicate, educate and capture the essence of all our cultures, in
-            meaningful ways, keeping our identities alive.
-          </p>
-
-          <hr />
-
-          <p style={{ fontSize: "1.33em" }}>
-            Whilst exploring this thought process, I learned a few things along
-            the way:
-          </p>
-
-          <ul style={{ fontSize: "1.33em" }}>
-            <li>
-              In the UK alone, almost 1 in 3 children are born to at least 1
-              foreign born parent
-            </li>
-            <li>
-              14.9% of our population will come from a single parent household.
-            </li>
-            <li>
-              Learning about culture and history is mostly academic and
-              expensive.
-            </li>
-            <li>
-              Underserved communities are 80x less likely to have access to
-              cultural arts organisations and academic institutions -
-              post-compulsory schooling.
-            </li>
-            <li>
-              Parents from lower socioeconomic backgrounds are significantly
-              less likely to teach and/or take their children to arts or
-              cultural and historical events, creating an isolated ‘cycle of
-              culture’.
-            </li>
-          </ul>
-
-          <p style={{ fontSize: "1.33em" }}>
-            If this is happening within the multicultural melting pot of what
-            that is the U.K. Imagine scaling this problem across the rest of the
-            world…{" "}
-          </p>
-
-          <p style={{ fontSize: "1.33em" }}>
-            We are on the mission to bridge the gap of culture, social equity
-            and web 3 technology for all. Giving back to those who add value to
-            the world but not recognised in the midst of all the noise.
-          </p>
-        </Container>
-      </Segment>
-
-      <Segment style={{ padding: "8em 0em" }} vertical>
-        <Container text>
-          <Header as="h3" id="roadmap" style={{ fontSize: "2em" }}>
-            Roadmap
+          <Header
+            as="h3"
+            id="roadmap"
+            style={{ fontSize: "2.5em", textAlign: "center", marginBottom: 40 }}
+          >
+            ROADMAP
           </Header>
           <RoadmapProgress milestones={milestones} />
         </Container>
       </Segment>
 
-      <Segment style={{ padding: "8em 0em" }} vertical>
+      <Segment style={{ padding: "8em 0em", border: "none" }} vertical>
         <Container text>
-          <Header as="h3" id="team" style={{ fontSize: "2em" }}>
-            Founding team
+          <Header
+            as="h3"
+            id="faq"
+            style={{ fontSize: "2.5em", textAlign: "center", marginBottom: 40 }}
+          >
+            FAQ
+          </Header>
+          <FaqAccordion />
+        </Container>
+      </Segment>
+
+      <Segment style={{ padding: "8em 0em", border: "none" }} vertical>
+        <Container text>
+          <Header
+            as="h3"
+            id="team"
+            style={{ fontSize: "2.5em", textAlign: "center", marginBottom: 40 }}
+          >
+            FOUNDING TEAM
           </Header>
           <p style={{ fontSize: "1.33em" }}>
             this is where our own custom Myra Frens avatars will sit
@@ -441,7 +511,7 @@ const HomepageLayout = () => {
         </Container>
       </Segment>
 
-      <Segment inverted vertical style={{ padding: "5em 0em" }}>
+      <Segment vertical style={{ padding: "5em 0em", border: "none" }}>
         <Container text>
           <p style={{ fontSize: "1.33em" }}>
             this is where all our social links will sit
