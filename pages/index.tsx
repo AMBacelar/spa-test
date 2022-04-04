@@ -20,7 +20,6 @@ import {
 } from "semantic-ui-react";
 import { Colours } from "../styles/colours";
 import Image from "next/image";
-import mcLogo from "../public/images/mclogo.png";
 
 const ContractInteractionComponent = () => {
   const [account, setAccount] = useState<string>("");
@@ -144,7 +143,7 @@ const HomepageHeading = ({ mobile }: { mobile?: boolean }) => (
   <Container text>
     <Header>
       <div style={{ marginTop: mobile ? "1.5em" : "3em" }}>
-        <Image src={mcLogo} width={200} height={200} />
+        <Image src={"/images/mclogo.png"} width={200} height={200} />
       </div>
       <h1
         style={{
