@@ -33,11 +33,11 @@ a {
   #teamSectionWrapper {
     margin: 20px auto;
     width: 400px;
-    height: 400px;
     background-color: #fff;
     display: grid;
     grid-template-columns: 200px 200px;
-    grid-row: auto auto;
+    grid-template-rows: 300px 300px;
+    grid-row: auto;
     grid-column-gap: 20px;
     grid-row-gap: 20px;
   }

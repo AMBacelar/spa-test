@@ -144,16 +144,6 @@ const HomepageHeading = ({ mobile }: { mobile?: boolean }) => (
       <div style={{ marginTop: mobile ? "1.5em" : "3em" }}>
         <Image src={"/images/branding.jpg"} width={655} height={500} />
       </div>
-      {/* <h1
-        style={{
-          fontSize: mobile ? "2em" : "4em",
-          fontWeight: "normal",
-          marginBottom: 100,
-          color: Colours.primaryText,
-        }}
-      >
-        Myra Frens
-      </h1> */}
       <ContractInteractionComponent />
     </Header>
   </Container>
@@ -458,7 +448,7 @@ const team: TeamMember[] = [
   {
     name: "Vernon",
     twitter: "@The_odyssean",
-    position: "Illustration & design",
+    position: "Illustration & Design",
     image: "/images/avatar/MyraTeam04.jpg",
   },
 ];
@@ -487,7 +477,7 @@ const TeamSection = () => {
 const HomepageLayout = () => {
   return (
     <ResponsiveContainer>
-      <Segment style={{ padding: "8em 0em", border: "none" }} vertical>
+      <Segment style={{ padding: "4em 0em", border: "none" }} vertical>
         <Container text>
           <Header
             as="h3"
@@ -504,6 +494,8 @@ const HomepageLayout = () => {
             style={{
               display: "flex",
               justifyContent: "space-around",
+              marginTop: 20,
+              marginBottom: 10,
             }}
           >
             <Image
@@ -553,7 +545,7 @@ const HomepageLayout = () => {
         </Container>
       </Segment>
 
-      <Segment style={{ padding: "8em 0em", border: "none" }} vertical>
+      <Segment style={{ padding: "4em 0em", border: "none" }} vertical>
         <Container text>
           <Header
             as="h3"
@@ -566,7 +558,7 @@ const HomepageLayout = () => {
         </Container>
       </Segment>
 
-      <Segment style={{ padding: "8em 0em", border: "none" }} vertical>
+      <Segment style={{ padding: "4em 0em", border: "none" }} vertical>
         <Container text>
           <Header
             as="h3"
@@ -579,7 +571,7 @@ const HomepageLayout = () => {
         </Container>
       </Segment>
 
-      <Segment style={{ padding: "8em 0em", border: "none" }} vertical>
+      <Segment style={{ padding: "4em 0em", border: "none" }} vertical>
         <Container text>
           <Header
             as="h3"
@@ -592,7 +584,10 @@ const HomepageLayout = () => {
         </Container>
       </Segment>
 
-      <Segment vertical style={{ padding: "5em 0em", border: "none" }}>
+      <Segment
+        vertical
+        style={{ padding: "5em 0em", border: "none", textAlign: "center" }}
+      >
         <Container text>
           <p style={{ fontSize: "1.33em" }}>
             this is where all our social links will sit
