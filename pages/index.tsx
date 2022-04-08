@@ -347,10 +347,10 @@ const FaqAccordion = () => {
         style={{ fontSize: "1.33em" }}
       >
         <Icon name="dropdown" />
-        How many Myra Frens are there?
+        <strong>How many Myra Frens are there?</strong>
       </Accordion.Title>
       <Accordion.Content active={activeIndex === 0}>
-        <p style={{ fontSize: "1.33em", marginLeft: 30 }}>
+        <p style={{ fontSize: "1.15em", marginLeft: 30 }}>
           There will be a collection of 10,000 generative NFTS.
         </p>
       </Accordion.Content>
@@ -362,10 +362,10 @@ const FaqAccordion = () => {
         style={{ fontSize: "1.33em" }}
       >
         <Icon name="dropdown" />
-        How much will Myra Frens cost to mint?
+        <strong>How much will Myra Frens cost to mint?</strong>
       </Accordion.Title>
       <Accordion.Content active={activeIndex === 1}>
-        <p style={{ fontSize: "1.33em", marginLeft: 30 }}>0.05 ETH</p>
+        <p style={{ fontSize: "1.15em", marginLeft: 30 }}>0.05 ETH</p>
       </Accordion.Content>
 
       <Accordion.Title
@@ -375,10 +375,10 @@ const FaqAccordion = () => {
         style={{ fontSize: "1.33em" }}
       >
         <Icon name="dropdown" />
-        When is the Mint?
+        <strong>Wens Mint?</strong>
       </Accordion.Title>
       <Accordion.Content active={activeIndex === 2}>
-        <p style={{ fontSize: "1.33em", marginLeft: 30 }}>
+        <p style={{ fontSize: "1.15em", marginLeft: 30 }}>
           Our mint date will be announced closer to the mint time, follow our
           Twitter account for further information.
         </p>
@@ -391,10 +391,10 @@ const FaqAccordion = () => {
         style={{ fontSize: "1.33em" }}
       >
         <Icon name="dropdown" />
-        Will there be utility?
+        <strong>Will there be utility?</strong>
       </Accordion.Title>
       <Accordion.Content active={activeIndex === 3}>
-        <p style={{ fontSize: "1.33em", marginLeft: 30 }}>
+        <p style={{ fontSize: "1.15em", marginLeft: 30 }}>
           Owners of Myra Frens will be able to access a cultural platform in
           order to explore, learn and build within the Myra ecosystem.
         </p>
@@ -407,10 +407,10 @@ const FaqAccordion = () => {
         style={{ fontSize: "1.33em" }}
       >
         <Icon name="dropdown" />
-        Where does my NFT go after I purchase a Myra Fren?
+        <strong>Where does my NFT go after I purchase a Myra Fren?</strong>
       </Accordion.Title>
       <Accordion.Content active={activeIndex === 4}>
-        <p style={{ fontSize: "1.33em", marginLeft: 30 }}>
+        <p style={{ fontSize: "1.15em", marginLeft: 30 }}>
           Your Myra Frens NFT will appear in the connected wallet you used to
           purchase your fren.
         </p>
@@ -578,7 +578,7 @@ const HomepageLayout = () => {
             id="team"
             style={{ fontSize: "2.5em", textAlign: "center", marginBottom: 40 }}
           >
-            MEET THE TEAM
+            TEAM
           </Header>
           <TeamSection />
         </Container>
