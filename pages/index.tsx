@@ -142,9 +142,9 @@ const HomepageHeading = ({ mobile }: { mobile?: boolean }) => (
   <Container text>
     <Header>
       <div style={{ marginTop: mobile ? "1.5em" : "3em" }}>
-        <Image src={"/images/avatar/mclogo.png"} width={200} height={200} />
+        <Image src={"/images/branding.jpg"} width={655} height={500} />
       </div>
-      <h1
+      {/* <h1
         style={{
           fontSize: mobile ? "2em" : "4em",
           fontWeight: "normal",
@@ -153,7 +153,7 @@ const HomepageHeading = ({ mobile }: { mobile?: boolean }) => (
         }}
       >
         Myra Frens
-      </h1>
+      </h1> */}
       <ContractInteractionComponent />
     </Header>
   </Container>

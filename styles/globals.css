@@ -29,7 +29,7 @@ a {
   max-width: 300px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 600px) {
   #teamSectionWrapper {
     margin: 20px auto;
     width: 400px;
