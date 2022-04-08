@@ -16,7 +16,6 @@ import {
   Menu,
   Segment,
   Sidebar,
-  Visibility,
 } from "semantic-ui-react";
 import { Colours } from "../styles/colours";
 import Image from "next/image";
@@ -161,66 +160,58 @@ const HomepageHeading = ({ mobile }: { mobile?: boolean }) => (
 );
 
 const DesktopContainer: React.FunctionComponent = ({ children }) => {
-  const [showFixedMenu, setShowFixedMenu] = useState(false);
   return (
     <Media greaterThan="mobile">
-      <Visibility
-        once={false}
-        onBottomPassed={() => setShowFixedMenu(true)}
-        onBottomPassedReverse={() => setShowFixedMenu(false)}
+      <Segment
+        textAlign="center"
+        vertical
+        style={{
+          minHeight: 700,
+          padding: "1em 0em",
+          background: Colours.bgMain,
+          border: "none",
+          color: Colours.primaryText,
+        }}
       >
-        <Segment
-          textAlign="center"
+        <Menu
+          pointing
+          secondary
+          size="large"
           style={{
-            minHeight: 700,
-            padding: "1em 0em",
-            background: Colours.bgMain,
             border: "none",
-            color: Colours.primaryText,
           }}
-          vertical
         >
-          <Menu
-            fixed={showFixedMenu ? "top" : undefined}
-            pointing={!showFixedMenu}
-            secondary={!showFixedMenu}
-            size="large"
-            style={{
-              border: "none",
-            }}
-          >
-            <Container>
-              <Menu.Item href="#" as="a">
-                Home
-              </Menu.Item>
-              <Menu.Item href="#about" as="a">
-                About
-              </Menu.Item>
-              <Menu.Item href="#roadmap" as="a">
-                Roadmap
-              </Menu.Item>
-              <Menu.Item href="#faq" as="a">
-                FAQ
-              </Menu.Item>
-              <Menu.Item href="#team" as="a">
-                Team
-              </Menu.Item>
-              <Menu.Item position="right">
-                <Button as="a" style={{ marginLeft: "0.5em" }}>
-                  Discord
-                </Button>
-                <Button as="a" style={{ marginLeft: "0.5em" }}>
-                  Twitter
-                </Button>
-                <Button as="a" style={{ marginLeft: "0.5em" }}>
-                  OpenSea
-                </Button>
-              </Menu.Item>
-            </Container>
-          </Menu>
-          <HomepageHeading />
-        </Segment>
-      </Visibility>
+          <Container>
+            <Menu.Item href="#" as="a">
+              Home
+            </Menu.Item>
+            <Menu.Item href="#about" as="a">
+              About
+            </Menu.Item>
+            <Menu.Item href="#roadmap" as="a">
+              Roadmap
+            </Menu.Item>
+            <Menu.Item href="#faq" as="a">
+              FAQ
+            </Menu.Item>
+            <Menu.Item href="#team" as="a">
+              Team
+            </Menu.Item>
+            <Menu.Item position="right">
+              <Button as="a" style={{ marginLeft: "0.5em" }}>
+                Discord
+              </Button>
+              <Button as="a" style={{ marginLeft: "0.5em" }}>
+                Twitter
+              </Button>
+              <Button as="a" style={{ marginLeft: "0.5em" }}>
+                OpenSea
+              </Button>
+            </Menu.Item>
+          </Container>
+        </Menu>
+        <HomepageHeading />
+      </Segment>
 
       {children}
     </Media>
@@ -369,7 +360,7 @@ const FaqAccordion = () => {
         How many Myra Frens are there?
       </Accordion.Title>
       <Accordion.Content active={activeIndex === 0}>
-        <p style={{ fontSize: "1.33em" }}>
+        <p style={{ fontSize: "1.33em", marginLeft: 30 }}>
           There will be a collection of 10,000 generative NFTS.
         </p>
       </Accordion.Content>
@@ -384,7 +375,7 @@ const FaqAccordion = () => {
         How much will Myra Frens cost to mint?
       </Accordion.Title>
       <Accordion.Content active={activeIndex === 1}>
-        <p style={{ fontSize: "1.33em" }}>0.05 ETH</p>
+        <p style={{ fontSize: "1.33em", marginLeft: 30 }}>0.05 ETH</p>
       </Accordion.Content>
 
       <Accordion.Title
@@ -397,7 +388,7 @@ const FaqAccordion = () => {
         When is the Mint?
       </Accordion.Title>
       <Accordion.Content active={activeIndex === 2}>
-        <p style={{ fontSize: "1.33em" }}>
+        <p style={{ fontSize: "1.33em", marginLeft: 30 }}>
           Our mint date will be announced closer to the mint time, follow our
           Twitter account for further information.
         </p>
@@ -413,7 +404,7 @@ const FaqAccordion = () => {
         Will there be utility?
       </Accordion.Title>
       <Accordion.Content active={activeIndex === 3}>
-        <p style={{ fontSize: "1.33em" }}>
+        <p style={{ fontSize: "1.33em", marginLeft: 30 }}>
           Owners of Myra Frens will be able to access a cultural platform in
           order to explore, learn and build within the Myra ecosystem.
         </p>
@@ -429,13 +420,68 @@ const FaqAccordion = () => {
         Where does my NFT go after I purchase a Myra Fren?
       </Accordion.Title>
       <Accordion.Content active={activeIndex === 4}>
-        <p style={{ fontSize: "1.33em" }}>
+        <p style={{ fontSize: "1.33em", marginLeft: 30 }}>
           Your Myra Frens NFT will appear in the connected wallet you used to
           purchase your fren.
         </p>
       </Accordion.Content>
     </Accordion>
   );
+};
+
+type TeamMember = {
+  name: string;
+  twitter: string;
+  position: string;
+  image: string;
+};
+
+const team: TeamMember[] = [
+  {
+    name: "0xBeckford",
+    twitter: "@0xBeckford",
+    position: "Vision & Product",
+    image: "/images/avatar/MyraTeam01.jpg",
+  },
+  {
+    name: "Studio Pixie",
+    twitter: "@The_odyssean",
+    position: "Creative & Community",
+    image: "/images/avatar/MyraTeam02.jpg",
+  },
+  {
+    name: "Adilson",
+    twitter: "@ambacelar",
+    position: "Technology",
+    image: "/images/avatar/MyraTeam03.jpg",
+  },
+  {
+    name: "Vernon",
+    twitter: "@The_odyssean",
+    position: "Illustration & design",
+    image: "/images/avatar/MyraTeam04.jpg",
+  },
+];
+
+const TeamSection = () => {
+  const cards = team.map((teamMember) => (
+    <div className="teamMember">
+      <div>
+        <Image
+          style={{ borderRadius: 200 }}
+          src={teamMember.image}
+          width={200}
+          height={200}
+        />
+      </div>
+      <div style={{ textAlign: "center" }}>
+        <strong>{teamMember.position}</strong>
+        <p>{teamMember.name}</p>
+        <p>{teamMember.twitter}</p>
+      </div>
+    </div>
+  ));
+  return <div id="teamSectionWrapper">{cards}</div>;
 };
 
 const HomepageLayout = () => {
@@ -454,18 +500,56 @@ const HomepageLayout = () => {
             Myra Frens are a collection of 10,000 randomly generated and
             culturally curated NFTs living on the Ethereum Blockchain.
           </p>
-          <p style={{ fontSize: "1.33em", textAlign: "center", color: "red" }}>
-            a row of images (emaple NFTs)
-          </p>
-          <p style={{ fontSize: "1.33em", textAlign: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-around",
+            }}
+          >
+            <Image
+              src="/images/avatar/MyraFren01.jpg"
+              width="150"
+              height="150"
+              style={{ marginLeft: 50, marginRight: 50 }}
+            />
+            <Image
+              src="/images/avatar/MyraFren02.jpg"
+              width="150"
+              height="150"
+              style={{ marginLeft: 50, marginRight: 50 }}
+            />
+            <Image
+              src="/images/avatar/MyraFren03.jpg"
+              width="150"
+              height="150"
+              style={{ marginLeft: 50, marginRight: 50 }}
+            />
+            <Image
+              src="/images/avatar/MyraFren04.jpg"
+              width="150"
+              height="150"
+              style={{ marginLeft: 50, marginRight: 50 }}
+            />
+          </div>
+          <p style={{ fontSize: "1.33em", textAlign: "center", marginTop: 30 }}>
             Each Fren provides a key to a cultual platform that rewards users
             for exploring, learning and building. Our mission is to bridge the
             gap of culture, social equity and web3 technology for all. Giving
             back to those who add value to the world.
           </p>
-          <p style={{ fontSize: "1.33em", textAlign: "center", color: "red" }}>
-            a single image (emaple NFT)
-          </p>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-around",
+            }}
+          >
+            <Image
+              src="/images/avatar/MyraFren05.jpg"
+              width="150"
+              height="150"
+              style={{ marginLeft: 50, marginRight: 50 }}
+            />
+          </div>
         </Container>
       </Segment>
 
@@ -502,11 +586,9 @@ const HomepageLayout = () => {
             id="team"
             style={{ fontSize: "2.5em", textAlign: "center", marginBottom: 40 }}
           >
-            FOUNDING TEAM
+            MEET THE TEAM
           </Header>
-          <p style={{ fontSize: "1.33em" }}>
-            this is where our own custom Myra Frens avatars will sit
-          </p>
+          <TeamSection />
         </Container>
       </Segment>
 

@@ -18,3 +18,27 @@ a {
 * {
   box-sizing: border-box;
 }
+
+#teamSectionWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+#teamSectionWrapper .teamMember {
+  max-width: 300px;
+}
+
+@media (min-width: 768px) {
+  #teamSectionWrapper {
+    margin: 20px auto;
+    width: 400px;
+    height: 400px;
+    background-color: #fff;
+    display: grid;
+    grid-template-columns: 200px 200px;
+    grid-row: auto auto;
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+  }
+}
