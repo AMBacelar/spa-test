@@ -142,7 +142,7 @@ const HomepageHeading = ({ mobile }: { mobile?: boolean }) => (
   <Container text>
     <Header>
       <div style={{ marginTop: mobile ? "1.5em" : "3em" }}>
-        <Image src={"/images/mclogo.png"} width={200} height={200} />
+        <Image src={"/images/avatar/mclogo.png"} width={200} height={200} />
       </div>
       <h1
         style={{
