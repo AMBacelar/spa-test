@@ -272,12 +272,6 @@ const MobileContainer: React.FunctionComponent = ({ children }) => {
                 <Menu.Item onClick={() => setSidebarOpened(!sidebarOpened)}>
                   <Icon name="sidebar" />
                 </Menu.Item>
-                <Menu.Item position="right">
-                  <Button as="a">Twitter</Button>
-                  <Button as="a" style={{ marginLeft: "0.5em" }}>
-                    Discord
-                  </Button>
-                </Menu.Item>
               </Menu>
             </Container>
             <HomepageHeading mobile />
