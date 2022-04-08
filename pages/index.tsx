@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import Web3 from "web3";
 import { Contract } from "web3-eth-contract";
 import { AbiItem } from "web3-utils";
-import RoadmapProgress from "react-roadmap-progress";
+import classNames from "classnames";
+import roadmapStyles from "../styles/roadmap.module.css";
 import { MYRA_GENESIS_ADDRESS, MYRA_GENESIS_ABI } from "../config";
 import {
   Button,
@@ -25,8 +26,6 @@ const ContractInteractionComponent = () => {
   const [myraGenesis, setMyraGenesis] = useState<Contract>();
   const [loading, setloading] = useState<boolean>(false);
   const [tokenAmount, setTokenAmount] = useState<string>("0");
-  const [minted, setMinted] = useState<number>(0);
-  const [totalSupply, setTotalSupply] = useState<number>(0);
 
   useEffect(() => {
     if ((window as any).ethereum) {
@@ -39,18 +38,6 @@ const ContractInteractionComponent = () => {
             MYRA_GENESIS_ADDRESS
           );
           setMyraGenesis(mGenesisContractList);
-          const fetchContractConstants = async () => {
-            const totalSupply = await mGenesisContractList.methods
-              .maxSupply()
-              .call();
-            const minted = await mGenesisContractList.methods
-              .totalSupply()
-              .call();
-
-            setTotalSupply(totalSupply);
-            setMinted(minted);
-          };
-          fetchContractConstants();
         } else {
           console.error("Not on Rinkeby Test Network");
         }
@@ -188,15 +175,44 @@ const DesktopContainer: React.FunctionComponent = ({ children }) => {
               Team
             </Menu.Item>
             <Menu.Item position="right">
-              <Button as="a" style={{ marginLeft: "0.5em" }}>
-                Discord
-              </Button>
-              <Button as="a" style={{ marginLeft: "0.5em" }}>
-                Twitter
-              </Button>
-              <Button as="a" style={{ marginLeft: "0.5em" }}>
-                OpenSea
-              </Button>
+              <a
+                className="swing"
+                href="#"
+                target="_blank"
+                style={{ marginLeft: "1em" }}
+              >
+                <img
+                  alt="discord channel link"
+                  src="/images/discord-icon.svg"
+                />
+              </a>
+              <a
+                className="swing"
+                href="#"
+                target="_blank"
+                style={{ marginLeft: "1em" }}
+              >
+                <img
+                  alt="our looksrare page"
+                  src="/images/looksrare-icon.svg"
+                />
+              </a>
+              <a
+                className="swing"
+                href="#"
+                target="_blank"
+                style={{ marginLeft: "1em" }}
+              >
+                <img alt="link to our twitter" src="/images/twitter-icon.svg" />
+              </a>
+              <a
+                className="swing"
+                href="#"
+                target="_blank"
+                style={{ marginLeft: "1em" }}
+              >
+                <img alt="our opensea page" src="/images/opensea-icon.svg" />
+              </a>
             </Menu.Item>
           </Container>
         </Menu>
@@ -289,45 +305,99 @@ const ResponsiveContainer: React.FunctionComponent = ({ children }) => (
   </MediaContextProvider>
 );
 
-const milestones = [
+type Milestone = {
+  percent: number;
+  label: string;
+};
+const milestones: Milestone[] = [
   {
-    title: "10%",
-    version: "0.0.1",
-    description: "Pay back those who believed in us",
-    complete: true,
+    percent: 10,
+    label: "Pay back those who believed in us",
   },
   {
-    title: "20%",
-    version: "0.0.2",
-    description: "Every Myra Fren needs a companion. Building community",
-    complete: true,
+    percent: 20,
+    label: "Every Myra Fren needs a companion. Building community",
   },
   {
-    title: "40%",
-    version: "0.0.3",
-    description:
+    percent: 40,
+    label:
       "Donation to Hackney Empire: youth project, the Royal Albert hall of urban and alternative culture in London",
-    complete: false,
   },
   {
-    title: "50%",
-    version: "0.0.4",
-    description: "IRL event mixing sound installation with art curation",
-    complete: false,
+    percent: 50,
+    label: "IRL event mixing sound installation with art curation",
   },
   {
-    title: "75%",
-    version: "0.0.5",
-    description: "Giving Back to our community Frens",
-    complete: false,
+    percent: 75,
+    label: "Giving Back to our community Frens",
   },
   {
-    title: "100%",
-    version: "0.0.6",
-    description: "Myra Frens L2E platform",
-    complete: false,
+    percent: 100,
+    label: "Myra Frens L2E platform",
   },
 ];
+
+const Roadmap = ({ milestones }: { milestones: Milestone[] }) => {
+  const [minted, setMinted] = useState<number>(0);
+  const [totalSupply, setTotalSupply] = useState<number>(0);
+
+  useEffect(() => {
+    if ((window as any).ethereum) {
+      const web3 = new Web3((window as any).ethereum);
+      try {
+        const isRinkeby = web3.eth.net.getId();
+        if (isRinkeby) {
+          const mGenesisContractList = new web3.eth.Contract(
+            MYRA_GENESIS_ABI as AbiItem[],
+            MYRA_GENESIS_ADDRESS
+          );
+          const fetchContractConstants = async () => {
+            const totalSupply = await mGenesisContractList.methods
+              .maxSupply()
+              .call();
+            const minted = await mGenesisContractList.methods
+              .totalSupply()
+              .call();
+
+            setTotalSupply(totalSupply);
+            setMinted(minted);
+          };
+          fetchContractConstants();
+        } else {
+          console.error("Not on Rinkeby Test Network");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }, []);
+
+  const checkpoints = milestones.map((milestone, index) => {
+    return (
+      <div
+        className={classNames(
+          roadmapStyles.container,
+          index % 2 == 0 ? roadmapStyles.left : roadmapStyles.right
+        )}
+      >
+        <div className={roadmapStyles.content}>
+          <h3>{milestone.percent}% of tokens minted</h3>
+          <p>{milestone.label}</p>
+        </div>
+      </div>
+    );
+  });
+
+  return (
+    <>
+      <p style={{ fontSize: "1.33em", textAlign: "center" }}>
+        Minted {minted} out of {totalSupply} Myra Frens Tokens <br />
+        Currently at {((minted / totalSupply) * 100).toFixed()}%
+      </p>
+      <div className={roadmapStyles.timeline}>{checkpoints}</div>
+    </>
+  );
+};
 
 const FaqAccordion = () => {
   const [activeIndex, setActiveIndex] = useState<number>(-1);
@@ -554,7 +624,7 @@ const HomepageLayout = () => {
           >
             ROADMAP
           </Header>
-          <RoadmapProgress milestones={milestones} />
+          <Roadmap milestones={milestones} />
         </Container>
       </Segment>
 
@@ -589,10 +659,25 @@ const HomepageLayout = () => {
         style={{ padding: "5em 0em", border: "none", textAlign: "center" }}
       >
         <Container text>
+          <div
+            style={{ padding: "5em 0em", border: "none", textAlign: "center" }}
+          >
+            <a href="#" target="_blank" style={{ marginLeft: "1em" }}>
+              <img alt="discord channel link" src="/images/discord-icon.svg" />
+            </a>
+            <a href="#" target="_blank" style={{ marginLeft: "1em" }}>
+              <img alt="our looksrare page" src="/images/looksrare-icon.svg" />
+            </a>
+            <a href="#" target="_blank" style={{ marginLeft: "1em" }}>
+              <img alt="link to our twitter" src="/images/twitter-icon.svg" />
+            </a>
+            <a href="#" target="_blank" style={{ marginLeft: "1em" }}>
+              <img alt="our opensea page" src="/images/opensea-icon.svg" />
+            </a>
+          </div>
           <p style={{ fontSize: "1.33em" }}>
-            this is where all our social links will sit
+            ©{new Date().getFullYear()} Myra Frens
           </p>
-          <p style={{ fontSize: "1.33em" }}>© 2022 Myra Frens</p>
           <p style={{ fontSize: "1.33em" }}>Logo again?</p>
         </Container>
       </Segment>
