@@ -13,14 +13,6 @@ const plugins = [
       },
     },
   ],
-  [
-    withLess,
-    {
-      lessLoaderOptions: {
-        /* ... */
-      },
-    },
-  ],
 ];
 
 module.exports = withPlugins(plugins, {
