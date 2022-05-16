@@ -440,16 +440,16 @@ const team: TeamMember[] = [
     image: "/images/avatar/MyraTeam01.jpg",
   },
   {
-    name: "Naomi",
-    twitter: "@The_Odyssean",
-    position: "Creative Director & Community Lead",
-    image: "/images/avatar/MyraTeam02.jpg",
-  },
-  {
     name: "Adilson",
     twitter: "@AMBacelar",
     position: "Co-founder and Head of Technology",
     image: "/images/avatar/MyraTeam03.jpg",
+  },
+  {
+    name: "Naomi",
+    twitter: "@The_Odyssean",
+    position: "Creative Director & Community Lead",
+    image: "/images/avatar/MyraTeam02.jpg",
   },
   {
     name: "Richard",
@@ -480,7 +480,7 @@ const team: TeamMember[] = [
 const TeamSection = () => {
   const cards = team.map((teamMember) => (
     <div className="teamMember">
-      <div>
+      <div style={{ textAlign: "center" }}>
         <Image
           style={{ borderRadius: 200 }}
           src={teamMember.image}

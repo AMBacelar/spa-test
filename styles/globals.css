@@ -26,7 +26,7 @@ a {
   gap: 20px;
 }
 #teamSectionWrapper .teamMember {
-  max-width: 300px;
+  max-width: 210px;
 }
 
 @media (min-width: 600px) {
