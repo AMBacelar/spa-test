@@ -436,19 +436,19 @@ const team: TeamMember[] = [
   {
     name: "Henley",
     twitter: "@0xBeckford",
-    position: "Vision & Product",
+    position: "Founder and Director of Product & Innovation",
     image: "/images/avatar/MyraTeam01.jpg",
   },
   {
     name: "Naomi",
     twitter: "@The_Odyssean",
-    position: "Creative & Community",
+    position: "Creative Director & Community Lead",
     image: "/images/avatar/MyraTeam02.jpg",
   },
   {
     name: "Adilson",
     twitter: "@AMBacelar",
-    position: "Technology",
+    position: "Co-founder and Head of Technology",
     image: "/images/avatar/MyraTeam03.jpg",
   },
   {
@@ -456,6 +456,24 @@ const team: TeamMember[] = [
     twitter: "@KingRichyArt",
     position: "Illustration & Design",
     image: "/images/avatar/MyraTeam04.jpg",
+  },
+  {
+    name: "Shallu",
+    twitter: "@tbc",
+    position: "Lead Games artist & Illustrator",
+    image: "/images/avatar/MyraFren00.png",
+  },
+  {
+    name: "Anna",
+    twitter: "@tbc",
+    position: "Lead Games designer",
+    image: "/images/avatar/MyraFren00.png",
+  },
+  {
+    name: "Ali",
+    twitter: "@tbc",
+    position: "Lead Games developers",
+    image: "/images/avatar/MyraFren00.png",
   },
 ];
 
@@ -503,6 +521,12 @@ const HomepageLayout = () => {
             lockdowns their lack of display of digital experiences forced
             museums, theatres and galleries to face extreme hardship and debt,
             costing the state 100s of millions, globally.
+            <br />
+            <br />
+            Whilst being a pillar to their communities, and with no sole fault
+            of their own, in the moment of need, they missed a pivotal moment to
+            authentically connect & support the ‘communities’ they act as
+            ambassadors for.
           </p>
           <div
             style={{
@@ -585,13 +609,13 @@ const HomepageLayout = () => {
             Join the Solar
           </Header>
           <p style={{ fontSize: "1.33em", textAlign: "center", marginTop: 30 }}>
-            Myra Frens are a collection of 10,988 auto-generated and culturally
-            curated NFTs living on the Ethereum Blockchain.
-            <br />
-            <br />
             Unlock your hidden value with a Myra Fren. Each Fren provides a key
             to a solar platform that rewards its owner for establishing their
             own unique identity.
+            <br />
+            <br />
+            Myra Frens are a collection of 10,988 auto-generated and culturally
+            curated NFTs living on the Ethereum Blockchain.
           </p>
         </Container>
       </Segment>
