@@ -4,8 +4,6 @@ import { useState, useEffect } from "react";
 import Web3 from "web3";
 import { Contract } from "web3-eth-contract";
 import { AbiItem } from "web3-utils";
-import classNames from "classnames";
-import roadmapStyles from "../styles/roadmap.module.css";
 import { MYRA_GENESIS_ADDRESS, MYRA_GENESIS_ABI } from "../config";
 import {
   Button,
@@ -129,7 +127,7 @@ const HomepageHeading = ({ mobile }: { mobile?: boolean }) => (
   <Container text>
     <Header>
       <div style={{ marginTop: mobile ? "1.5em" : "3em" }}>
-        <Image src={"/images/branding.jpg"} width={655} height={500} />
+        <Image src={"/images/avatar/MyraFren00.png"} width={500} height={500} />
       </div>
       <ContractInteractionComponent />
     </Header>
@@ -162,8 +160,11 @@ const DesktopContainer: React.FunctionComponent = ({ children }) => {
             <Menu.Item href="#" as="a">
               Home
             </Menu.Item>
-            <Menu.Item href="#about" as="a">
-              About
+            <Menu.Item href="#status-quo" as="a">
+              Status Quo
+            </Menu.Item>
+            <Menu.Item href="#mission" as="a">
+              Mission
             </Menu.Item>
             <Menu.Item href="#roadmap" as="a">
               Roadmap
@@ -239,8 +240,11 @@ const MobileContainer: React.FunctionComponent = ({ children }) => {
           <Menu.Item href="#" as="a">
             Home
           </Menu.Item>
-          <Menu.Item href="#about" as="a">
-            About
+          <Menu.Item href="#status-quo" as="a">
+            Status Quo
+          </Menu.Item>
+          <Menu.Item href="#mission" as="a">
+            Mission
           </Menu.Item>
           <Menu.Item href="#roadmap" as="a">
             Roadmap
@@ -330,68 +334,6 @@ const milestones: Milestone[] = [
     label: "Myra Frens L2E platform",
   },
 ];
-
-const Roadmap = ({ milestones }: { milestones: Milestone[] }) => {
-  const [minted, setMinted] = useState<number>(0);
-  const [totalSupply, setTotalSupply] = useState<number>(0);
-
-  useEffect(() => {
-    if ((window as any).ethereum) {
-      const web3 = new Web3((window as any).ethereum);
-      try {
-        const isRinkeby = web3.eth.net.getId();
-        if (isRinkeby) {
-          const mGenesisContractList = new web3.eth.Contract(
-            MYRA_GENESIS_ABI as AbiItem[],
-            MYRA_GENESIS_ADDRESS
-          );
-          const fetchContractConstants = async () => {
-            const totalSupply = await mGenesisContractList.methods
-              .maxSupply()
-              .call();
-            const minted = await mGenesisContractList.methods
-              .totalSupply()
-              .call();
-
-            setTotalSupply(totalSupply);
-            setMinted(minted);
-          };
-          fetchContractConstants();
-        } else {
-          console.error("Not on Rinkeby Test Network");
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  }, []);
-
-  const checkpoints = milestones.map((milestone, index) => {
-    return (
-      <div
-        className={classNames(
-          roadmapStyles.container,
-          index % 2 == 0 ? roadmapStyles.left : roadmapStyles.right
-        )}
-      >
-        <div className={roadmapStyles.content}>
-          <h3>{milestone.percent}% of tokens minted</h3>
-          <p>{milestone.label}</p>
-        </div>
-      </div>
-    );
-  });
-
-  return (
-    <>
-      <p style={{ fontSize: "1.33em", textAlign: "center" }}>
-        Minted {minted} out of {totalSupply} Myra Frens Tokens <br />
-        Currently at {((minted / totalSupply) * 100).toFixed()}%
-      </p>
-      <div className={roadmapStyles.timeline}>{checkpoints}</div>
-    </>
-  );
-};
 
 const FaqAccordion = () => {
   const [activeIndex, setActiveIndex] = useState<number>(-1);
@@ -492,7 +434,7 @@ type TeamMember = {
 
 const team: TeamMember[] = [
   {
-    name: "0xBeckford",
+    name: "Henley",
     twitter: "@0xBeckford",
     position: "Vision & Product",
     image: "/images/avatar/MyraTeam01.jpg",
@@ -545,14 +487,22 @@ const HomepageLayout = () => {
         <Container text>
           <Header
             as="h3"
-            id="about"
+            id="status-quo"
             style={{ fontSize: "2.5em", textAlign: "center", marginBottom: 40 }}
           >
-            ABOUT
+            THE STATUS QUO
           </Header>
           <p style={{ fontSize: "1.33em", textAlign: "center" }}>
-            Myra Frens are a collection of 10,000 randomly generated and
-            culturally curated NFTs living on the Ethereum Blockchain.
+            Digitising education has failed, the frenzy during covid 19
+            uncovered that institutions and educators could not scale their
+            platforms to effectively add value to the world, in crisis and are
+            struggling in keep to their promises in recent times.
+            <br />
+            <br />
+            Cultural arts institutions are dinosaurs, during the lengthy
+            lockdowns their lack of display of digital experiences forced
+            museums, theatres and galleries to face extreme hardship and debt,
+            costing the state 100s of millions, globally.
           </p>
           <div
             style={{
@@ -587,11 +537,27 @@ const HomepageLayout = () => {
               style={{ marginLeft: 50, marginRight: 50 }}
             />
           </div>
+        </Container>
+      </Segment>
+
+      <Segment style={{ padding: "4em 0em", border: "none" }} vertical>
+        <Container text>
+          <Header
+            as="h3"
+            id="mission"
+            style={{ fontSize: "2.5em", textAlign: "center", marginBottom: 40 }}
+          >
+            Mission
+          </Header>
           <p style={{ fontSize: "1.33em", textAlign: "center", marginTop: 30 }}>
-            Each Fren provides a key to a cultual platform that rewards users
-            for exploring, learning and building. Our mission is to bridge the
-            gap of culture, social equity and web3 technology for all. Giving
-            back to those who add value to the world.
+            We are on the mission to provide free access and education of our
+            enriched history of cultural arts, heritage and enterprise.
+            Reinvigorating how we educate our communities about
+            entrepreneurship, arts & culture to enhance social equity, social
+            equality and listening, all whilst empowering ourselves. And by
+            empowering ourselves, we empower our communities, uniting
+            traditional cultural arts with the digital world to create
+            extraordinary experiences.
           </p>
           <div
             style={{
@@ -613,12 +579,33 @@ const HomepageLayout = () => {
         <Container text>
           <Header
             as="h3"
+            id="join-solar"
+            style={{ fontSize: "2.5em", textAlign: "center", marginBottom: 40 }}
+          >
+            Join the Solar
+          </Header>
+          <p style={{ fontSize: "1.33em", textAlign: "center", marginTop: 30 }}>
+            Myra Frens are a collection of 10,988 auto-generated and culturally
+            curated NFTs living on the Ethereum Blockchain.
+            <br />
+            <br />
+            Unlock your hidden value with a Myra Fren. Each Fren provides a key
+            to a solar platform that rewards its owner for establishing their
+            own unique identity.
+          </p>
+        </Container>
+      </Segment>
+
+      <Segment style={{ padding: "4em 0em", border: "none" }} vertical>
+        <Container text>
+          <Header
+            as="h3"
             id="roadmap"
             style={{ fontSize: "2.5em", textAlign: "center", marginBottom: 40 }}
           >
             ROADMAP
           </Header>
-          <Roadmap milestones={milestones} />
+          <p style={{ fontSize: "1.33em", textAlign: "center" }}>coming soon</p>
         </Container>
       </Segment>
 
@@ -673,6 +660,12 @@ const HomepageLayout = () => {
             ©{new Date().getFullYear()} Myra Frens
           </p>
           <p style={{ fontSize: "1.33em" }}>Logo again?</p>
+          <a
+            href={`https://etherscan.io/address/${MYRA_GENESIS_ADDRESS}`}
+            target="_blank"
+          >
+            Etherscan: {MYRA_GENESIS_ADDRESS}
+          </a>
         </Container>
       </Segment>
     </ResponsiveContainer>
