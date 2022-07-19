@@ -68,7 +68,7 @@ const ContractInteractionComponent = () => {
     try {
       const web3 = new Web3((window as any).ethereum);
       myraGenesis &&
-        (await myraGenesis.methods.mint(account, 1).send({
+        (await myraGenesis.methods.mint(account, tokenAmount).send({
           from: account,
           value:
             parseInt(await myraGenesis.methods.cost().call()) *
